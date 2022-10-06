@@ -21,13 +21,87 @@ class _MyWidgetState extends State<MyWidget> {
         child: ElevatedButton(
           child: Text('Alert Dialog'),
           onPressed: () {
-            _showDialog(context);
+            _preLocation();
           },
         ),
       ),
     );
   }
 
+  Map<String, bool> cityList = {
+    'Balagam': false,
+    'Bangalore': false,
+    'Hyderabad': false,
+    'Chennai': false,
+    'Delhi': false,
+    'Surat': false,
+    'Junagadh': false,
+    'Porbander': false,
+    'Rajkot': false,
+    'Pune': false,
+  };
+
+  Future<Future> _preLocation() async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                title: Text('Preferred Location'),
+                actions: <Widget>[
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context, null);
+                    },
+                    child: Text('Cancle'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context, cityList);
+                    },
+                    child: Text('Done'),
+                  ),
+                ],
+                content: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 300,
+                  child: Stepper(
+                    currentStep: curreentste,
+                    onStepTapped: (index) {
+                      setState(() => curreentste = index);
+                    },
+                    onStepContinue: () {
+                      if (curreentste != 2) {
+                        setState(() => curreentste++);
+                      }
+                    },
+                    steps: [
+                      Step(
+                        isActive: curreentste >= 0,
+                        title: Text("Step1"),
+                        content: Text("as"),
+                      ),
+                      Step(
+                        isActive: curreentste >= 1,
+                        title: Text("Step2"),
+                        content: Text("as"),
+                      ),
+                      Step(
+                        isActive: curreentste >= 2,
+                        title: Text("Step3"),
+                        content: Text("as"),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        });
+  }
+
+  //
   void _showDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -41,15 +115,6 @@ class _MyWidgetState extends State<MyWidget> {
                 Navigator.of(context).pop();
               },
             ),
-            // Stepper(
-            //   currentStep: curreentste,
-            //   steps: [
-            //     Step(
-            //       title: Text("sa"),
-            //       content: Text("as"),
-            //     )
-            //   ],
-            // )
           ],
           content: Container(
             width: MediaQuery.of(context).size.width,

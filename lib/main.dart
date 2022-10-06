@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Text("data"),
             ElevatedButton(
               onPressed: () {
-                newMethod(context);
+                setState(() => newMethod(context));
               },
               child: Text(""),
             ),
