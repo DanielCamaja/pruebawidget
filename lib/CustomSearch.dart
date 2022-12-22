@@ -20,7 +20,6 @@ class _CustomSearchState extends State<CustomSearch> {
     {'name': 'Najaf', 'class': 6},
     {'name': 'Izhar', 'class': 5},
   ];
-
   var selected;
   late List selectedList;
 
