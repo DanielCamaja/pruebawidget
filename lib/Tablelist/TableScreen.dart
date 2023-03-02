@@ -4,13 +4,23 @@ class TableScreen extends StatelessWidget {
   // this dummy data will be displayed in the table
   final List<Map> _users = [
     {'id': 1, 'name': 'John'},
-    {'id': 2, 'name': 'Bob'},
-    {'id': 3, 'name': 'Trump'},
-    {'id': 4, 'name': 'Joe Biden'},
-    {'id': 5, 'name': 'Superman'},
-    {'id': 6, 'name': 'Wonder Lady'},
-    {'id': 7, 'name': 'Ronaldo'},
-    {'id': 8, 'name': 'Ben'}
+    {'id': 2, 'name': 'John'},
+    {'id': 3, 'name': 'John'},
+    {'id': 1, 'name': 'John'},
+    {'id': 2, 'name': 'John'},
+    {'id': 3, 'name': 'John'},
+    {'id': 1, 'name': 'John'},
+    {'id': 2, 'name': 'John'},
+    {'id': 3, 'name': 'John'},
+    {'id': 1, 'name': 'John'},
+    {'id': 2, 'name': 'John'},
+    {'id': 3, 'name': 'John'},
+    {'id': 1, 'name': 'John'},
+    {'id': 2, 'name': 'John'},
+    {'id': 3, 'name': 'John'},
+    {'id': 1, 'name': 'John'},
+    {'id': 2, 'name': 'John'},
+    {'id': 3, 'name': 'John'},
   ];
 
   TableScreen({Key? key}) : super(key: key);
@@ -21,28 +31,88 @@ class TableScreen extends StatelessWidget {
         body: Padding(
       padding: const EdgeInsets.all(25),
       child: SingleChildScrollView(
-        child: Table(
-          columnWidths: const {
-            0: FixedColumnWidth(50),
-            1: FlexColumnWidth(),
-          },
-          children: _users.map((user) {
-            return TableRow(children: [
-              Container(
-                  color: _users.indexOf(user) % 2 == 0
-                      ? Colors.blue[50]
-                      : Colors.amber[50],
-                  padding: const EdgeInsets.all(15),
-                  child: Text(user['id'].toString())),
-              Container(
-                  color: _users.indexOf(user) % 2 == 0
-                      ? Colors.blue[50]
-                      : Colors.amber[50],
-                  padding: const EdgeInsets.all(15),
-                  child: Text(user['name']))
-            ]);
-          }).toList(),
-          border: TableBorder.all(width: 1, color: Colors.black),
+        child: Column(
+          children: [
+            Table(
+              // border: TableBorder
+              //     .all(), // Allows to add a border decoration around your table
+              children: const [
+                TableRow(children: [
+                  Center(
+                      child: Text('Cantidad', style: TextStyle(fontSize: 20))),
+                  Text('Codigo'),
+                  Text('Nombre'),
+                  Text('%Desc'),
+                  Text('precio Pub.'),
+                  Text('%Oferta'),
+                  Text('Precio Neto'),
+                  Text('Subtotal'),
+                  Text('Accion'),
+                ]),
+              ],
+            ),
+            Table(
+              children: _users.map((user) {
+                return TableRow(children: [
+                  Container(
+                      color: _users.indexOf(user) % 2 == 0
+                          ? Colors.blue[50]
+                          : Colors.amber[50],
+                      padding: const EdgeInsets.all(15),
+                      child: Text(user['id'].toString())),
+                  Container(
+                      color: _users.indexOf(user) % 2 == 0
+                          ? Colors.blue[50]
+                          : Colors.amber[50],
+                      padding: const EdgeInsets.all(15),
+                      child: Text(user['name'])),
+                  Container(
+                      color: _users.indexOf(user) % 2 == 0
+                          ? Colors.blue[50]
+                          : Colors.amber[50],
+                      padding: const EdgeInsets.all(15),
+                      child: Text(user['id'].toString())),
+                  Container(
+                      color: _users.indexOf(user) % 2 == 0
+                          ? Colors.blue[50]
+                          : Colors.amber[50],
+                      padding: const EdgeInsets.all(15),
+                      child: Text(user['name'])),
+                  Container(
+                      color: _users.indexOf(user) % 2 == 0
+                          ? Colors.blue[50]
+                          : Colors.amber[50],
+                      padding: const EdgeInsets.all(15),
+                      child: Text(user['id'].toString())),
+                  Container(
+                      color: _users.indexOf(user) % 2 == 0
+                          ? Colors.blue[50]
+                          : Colors.amber[50],
+                      padding: const EdgeInsets.all(15),
+                      child: Text(user['name'])),
+                  Container(
+                      color: _users.indexOf(user) % 2 == 0
+                          ? Colors.blue[50]
+                          : Colors.amber[50],
+                      padding: const EdgeInsets.all(15),
+                      child: Text(user['id'].toString())),
+                  Container(
+                      color: _users.indexOf(user) % 2 == 0
+                          ? Colors.blue[50]
+                          : Colors.amber[50],
+                      padding: const EdgeInsets.all(15),
+                      child: Text(user['name'])),
+                  Container(
+                      color: _users.indexOf(user) % 2 == 0
+                          ? Colors.blue[50]
+                          : Colors.amber[50],
+                      padding: const EdgeInsets.all(15),
+                      child: Text(user['id'].toString())),
+                ]);
+              }).toList(),
+              border: TableBorder.all(width: 1, color: Colors.black),
+            ),
+          ],
         ),
       ),
     ));
