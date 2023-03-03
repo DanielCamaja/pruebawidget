@@ -17,6 +17,9 @@ class _LiveMapsState extends State<LiveMaps> {
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
 
+  final LatLng _latLng = LatLng(-34.6147741, -58.4829567);
+  final double _zoom = 15.0;
+
   void initState() {
     super.initState();
     _getLocation();
@@ -24,9 +27,8 @@ class _LiveMapsState extends State<LiveMaps> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     _customInfoWindowController.dispose();
+    super.dispose();
   }
 
   void _getLocation() async {
@@ -47,10 +49,9 @@ class _LiveMapsState extends State<LiveMaps> {
       _markers.clear();
       _markers.add(Marker(
           markerId: MarkerId('my_location'),
-          position: LatLng(-34.6158238, -58.4332985),
+          position: _latLng,
           //icon: BitmapDescriptor.fromBytes(markerIcon),
           onTap: () {
-/*
             _customInfoWindowController.addInfoWindow!(
               Container(
                 width: 300,
@@ -112,9 +113,8 @@ class _LiveMapsState extends State<LiveMaps> {
                   ],
                 ),
               ),
-              LatLng(-34.6158238, -58.4332985),
+              _latLng,
             );
-            */
           }));
     });
   }
@@ -122,17 +122,33 @@ class _LiveMapsState extends State<LiveMaps> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: LatLng(-34.6147741, -58.4829567), // San Francisco
-          zoom: 15,
-        ),
-        myLocationEnabled: true,
-        myLocationButtonEnabled: true,
-        markers: _markers,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+      body: Stack(
+        children: <Widget>[
+          GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: LatLng(-34.6147741, -58.4829567), // San Francisco
+              zoom: 15,
+            ),
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            markers: _markers,
+            onTap: (position) {
+              _customInfoWindowController.hideInfoWindow!();
+            },
+            onCameraMove: (position) {
+              _customInfoWindowController.onCameraMove!();
+            },
+            onMapCreated: (GoogleMapController controller) async {
+              _customInfoWindowController.googleMapController = controller;
+            },
+          ),
+          CustomInfoWindow(
+            controller: _customInfoWindowController,
+            height: 175,
+            width: 160,
+            offset: 50,
+          ),
+        ],
       ),
     );
   }

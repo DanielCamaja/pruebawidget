@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:pruebawidget/maps/livemaps.dart';
 import 'package:pruebawidget/maps/maps_details.dart';
 
 void main() => runApp(const MaterialApp(home: MyApp()));
@@ -29,7 +30,7 @@ class _MyAppState extends State<MyApp> {
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
-        body: CustomInfoWindowExample(),
+        body: LiveMaps(),
       ),
     );
     // AnimatedTheme(
