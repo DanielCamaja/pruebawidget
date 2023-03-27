@@ -1,9 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:pruebawidget/LoginPhone/LoginPhone.dart';
 import 'package:pruebawidget/maps/livemaps.dart';
 import 'package:pruebawidget/maps/maps_details.dart';
+import 'package:pruebawidget/maps/mspsd.dart';
 
-void main() => runApp(const MaterialApp(home: MyApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MaterialApp(home: MyApp()));
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -30,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
-        body: LiveMaps(),
+        body: MyPhone(),
       ),
     );
     // AnimatedTheme(

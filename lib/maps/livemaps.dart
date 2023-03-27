@@ -47,7 +47,8 @@ class _LiveMapsState extends State<LiveMaps> {
   void _updateMarker(double lat, double lng) {
     setState(() {
       _markers.clear();
-      _markers.add(Marker(
+      _markers.add(
+        Marker(
           markerId: MarkerId('my_location'),
           position: _latLng,
           //icon: BitmapDescriptor.fromBytes(markerIcon),
@@ -115,7 +116,9 @@ class _LiveMapsState extends State<LiveMaps> {
               ),
               _latLng,
             );
-          }));
+          },
+        ),
+      );
     });
   }
 
