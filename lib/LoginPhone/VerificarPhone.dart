@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:pruebawidget/HomePage.dart';
 import 'package:pruebawidget/LoginPhone/LoginPhone.dart';
+import 'package:pruebawidget/maps/maps_details.dart';
 import 'package:pruebawidget/maps/mspsd.dart';
 
 class MyVerify extends StatefulWidget {
@@ -12,34 +14,20 @@ class MyVerify extends StatefulWidget {
 }
 
 class _MyVerifyState extends State<MyVerify> {
+  final pinController = TextEditingController();
+  final focusNode = FocusNode();
+  var code;
+
+  @override
+  void dispose() {
+    pinController.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
+
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 56,
-      textStyle: TextStyle(
-          fontSize: 20,
-          color: Color.fromRGBO(30, 60, 87, 1),
-          fontWeight: FontWeight.w600),
-      decoration: BoxDecoration(
-        border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
-        borderRadius: BorderRadius.circular(20),
-      ),
-    );
-
-    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-      border: Border.all(color: Color.fromRGBO(114, 178, 238, 1)),
-      borderRadius: BorderRadius.circular(8),
-    );
-
-    final submittedPinTheme = defaultPinTheme.copyWith(
-      decoration: defaultPinTheme.decoration?.copyWith(
-        color: Color.fromRGBO(234, 239, 243, 1),
-      ),
-    );
-
-    var code = "";
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -90,9 +78,9 @@ class _MyVerifyState extends State<MyVerify> {
               Pinput(
                 length: 6,
                 showCursor: true,
-                onChanged: (value) {
-                  code = value;
-                },
+                onChanged: (value) {},
+                controller: pinController,
+                onSubmitted: (value) async {},
               ),
               SizedBox(
                 height: 20,
@@ -106,15 +94,25 @@ class _MyVerifyState extends State<MyVerify> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
-                      PhoneAuthCredential credential =
-                          PhoneAuthProvider.credential(
-                              verificationId: MyPhone.verify, smsCode: code);
-
-                      // Sign the user in (or link) with the credential
-                      await auth.signInWithCredential(credential);
-                      //aqui va a la pantalla principal
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MapScreen()));
+                      try {
+                        await FirebaseAuth.instance
+                            .signInWithCredential(PhoneAuthProvider.credential(
+                                verificationId: MyPhone.verify,
+                                smsCode: pinController.text))
+                            .then((value) async {
+                          if (value.user != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CustomInfoWindowExample()));
+                          }
+                        });
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content:
+                                Text("Codigo Erroneo, Por favor Verificar")));
+                      }
                     },
                     child: Text("Verify Phone Number")),
               ),

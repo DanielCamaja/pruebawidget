@@ -95,6 +95,7 @@ class _MyPhoneState extends State<MyPhone> {
                         verificationFailed: (FirebaseAuthException e) {},
                         codeSent: (String verificationId, int? resendToken) {
                           MyPhone.verify = verificationId;
+
                           Navigator.push(
                               context,
                               MaterialPageRoute(
