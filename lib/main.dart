@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:pruebawidget/LoginPhone/LoginPhone.dart';
+import 'package:pruebawidget/Table/TableScreen.dart';
 import 'package:pruebawidget/maps/livemaps.dart';
 import 'package:pruebawidget/maps/maps_details.dart';
 import 'package:pruebawidget/maps/mspsd.dart';
@@ -9,7 +10,7 @@ import 'package:pinput/pinput.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
   runApp(const MaterialApp(home: MyApp()));
 }
 
@@ -38,7 +39,7 @@ class _MyAppState extends State<MyApp> {
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
-        body: MyPhone(),
+        body: TableScreen(),
       ),
     );
   }

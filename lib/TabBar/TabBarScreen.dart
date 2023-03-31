@@ -15,89 +15,86 @@ class _TabBarScreenState extends State<TabBarScreen> {
     return DefaultTabController(
       length: 6,
       child: Scaffold(
-          appBar: AppBar(
-            title: Text("Flutter TabBar Example - Customized "),
-          ),
           body: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    Container(
-                      height: 500,
-                      width: 300,
-                      color: Colors.amber,
-                    ),
-                    SizedBox(
-                      height: 500,
-                      width: 600,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 45,
-                            decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(25.0)),
-                            child: TabBar(
-                              indicator: BoxDecoration(
-                                  color: Colors.green[300],
-                                  borderRadius: BorderRadius.circular(25.0)),
-                              labelColor: Colors.white,
-                              unselectedLabelColor: Colors.black,
-                              tabs: const [
-                                Tab(
-                                  text: 'Busqueda',
-                                ),
-                                Tab(
-                                  text: 'Historico',
-                                ),
-                                Tab(
-                                  text: 'Dashboard',
-                                ),
-                                Tab(
-                                  text: 'Programas de Salud',
-                                ),
-                                Tab(
-                                  text: 'Seguros',
-                                ),
-                                Tab(
-                                  text: 'CRM(Clientes)',
-                                )
-                              ],
+                Container(
+                  height: 500,
+                  width: 300,
+                  color: Colors.amber,
+                ),
+                SizedBox(
+                  height: 500,
+                  width: 600,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 45,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(25.0)),
+                        child: TabBar(
+                          indicator: BoxDecoration(
+                              color: Colors.green[300],
+                              borderRadius: BorderRadius.circular(25.0)),
+                          labelColor: Colors.white,
+                          unselectedLabelColor: Colors.black,
+                          tabs: const [
+                            Tab(
+                              text: 'Busqueda',
                             ),
-                          ),
-                          Expanded(
-                              child: TabBarView(
-                            children: [
-                              Center(
-                                child: Text("Chats Pages"),
-                              ),
-                              Center(
-                                child: Text("Status Pages"),
-                              ),
-                              Center(
-                                child: Text('Calls Page'),
-                              ),
-                              Center(
-                                child: Text('Settings Page'),
-                              ),
-                              Center(
-                                child: Text('Seguos'),
-                              ),
-                              Center(
-                                child: Text('CRM(Clientes)'),
-                              )
-                            ],
-                          ))
-                        ],
+                            Tab(
+                              text: 'Historico',
+                            ),
+                            Tab(
+                              text: 'Dashboard',
+                            ),
+                            Tab(
+                              text: 'Programas de Salud',
+                            ),
+                            Tab(
+                              text: 'Seguros',
+                            ),
+                            Tab(
+                              text: 'CRM(Clientes)',
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Expanded(
+                          child: TabBarView(
+                        children: [
+                          Center(
+                            child: Text("Chats Pages"),
+                          ),
+                          Center(
+                            child: Text("Status Pages"),
+                          ),
+                          Center(
+                            child: Text('Calls Page'),
+                          ),
+                          Center(
+                            child: Text('Settings Page'),
+                          ),
+                          Center(
+                            child: Text('Seguos'),
+                          ),
+                          Center(
+                            child: Text('CRM(Clientes)'),
+                          )
+                        ],
+                      ))
+                    ],
+                  ),
                 ),
               ],
             ),
-          )),
+          ],
+        ),
+      )),
     );
   }
 }

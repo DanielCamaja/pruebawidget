@@ -71,7 +71,7 @@ class _MyPhoneState extends State<MyPhone> {
                     //print(phone.completeNumber);
                     //codigo = phone.completeNumber;
                     codigo = phone.completeNumber.toString();
-                    print("${codigo}");
+                    print("sss${codigo}");
                     //con.code = codigo;
                   },
                 ),
@@ -88,6 +88,7 @@ class _MyPhoneState extends State<MyPhone> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
+                      print("aaa${codigo}");
                       await FirebaseAuth.instance.verifyPhoneNumber(
                         phoneNumber: '${codigo}',
                         verificationCompleted:
