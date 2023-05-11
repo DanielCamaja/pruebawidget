@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:pinput/pinput.dart';
 import 'package:pruebawidget/HomePage.dart';
 import 'package:pruebawidget/LoginPhone/LoginPhone.dart';
@@ -101,7 +103,15 @@ class _MyVerifyState extends State<MyVerify> {
                                 smsCode: pinController.text))
                             .then((value) async {
                           if (value.user != null) {
-                            Navigator.push(
+                            await FirebaseMessaging.instance
+                                .getToken()
+                                .then((token) async {
+                              print('Token de FCM: $token');
+                              await GetStorage().write('user', token);
+                              // Guarda el token en tu base de datos o en otro lugar seguro para su uso posterior
+                            });
+
+                            await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>

@@ -10,7 +10,7 @@ import 'package:pinput/pinput.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const MaterialApp(home: MyApp()));
 }
 
@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
       title: _title,
       home: Scaffold(
         appBar: AppBar(title: const Text(_title)),
-        body: TableScreen(),
+        body: MyPhone(),
       ),
     );
   }

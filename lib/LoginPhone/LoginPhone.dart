@@ -25,6 +25,15 @@ class _MyPhoneState extends State<MyPhone> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              await Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyPhone()));
+            },
+            icon: Icon(Icons.power_settings_new)),
+      ),
       body: Container(
         margin: EdgeInsets.only(left: 25, right: 25),
         alignment: Alignment.center,
@@ -65,7 +74,7 @@ class _MyPhoneState extends State<MyPhone> {
                   decoration: InputDecoration(
                     labelText: 'Phone Number',
                   ),
-                  initialCountryCode: 'AR',
+                  initialCountryCode: 'GT',
                   onChanged: (phone) {
                     //print(phone.countryCode);
                     //print(phone.completeNumber);

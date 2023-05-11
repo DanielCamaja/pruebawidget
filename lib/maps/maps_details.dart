@@ -1,6 +1,13 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:custom_info_window/custom_info_window.dart';
+import 'package:pruebawidget/LoginPhone/LoginPhone.dart';
+import 'package:http/http.dart' as http;
 
 class CustomInfoWindowExample extends StatefulWidget {
   @override
@@ -9,6 +16,9 @@ class CustomInfoWindowExample extends StatefulWidget {
 }
 
 class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+  var user = GetStorage().read('user') ?? {};
   CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
 
@@ -19,7 +29,87 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
   void dispose() {
     _customInfoWindowController.dispose();
     super.dispose();
+    // Escuchar eventos de notificación abierta
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('Notificación abierta: ${message.notification!.body}');
+      // Ejecuta la lógica que necesites en tu aplicación
+    });
   }
+
+  @override
+  void initState() {
+    super.initState();
+    print("probemos que trae $user");
+  }
+
+  Future sendNotification(String fcmToken) async {
+    final String serverKey =
+        'AAAApDpbnok:APA91bG7vW5s_VLdjzEAYdkdf1KpezGj5iRn5xl0HUAlFlAOLerkxWzL1vNhBJfzmwktITm_XZ8MErmqmFwU12Rbd9UOYX9qbeONXndQarJ1RtmYbtccp_M6OMjdAIvSM30FmmvgUwZQTOj6OAZMqzA5cgkjAD005g';
+    final String fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+    final headers = <String, String>{
+      'Content-Type': 'application/json',
+      'Authorization': 'key=$serverKey',
+    };
+
+    final data = <String, dynamic>{
+      'notification': <String, dynamic>{
+        'body': 'Notificación de prueba',
+        'title': 'Título de prueba',
+        'sound': 'default',
+        'badge': '1',
+      },
+      'priority': 'high',
+      'data': <String, dynamic>{
+        'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+        'id': '1',
+        'status': 'done'
+      },
+      'to': fcmToken,
+    };
+
+    final response = await http.post(
+      Uri.parse(fcmUrl),
+      headers: headers,
+      body: jsonEncode(data),
+    );
+
+    if (response.statusCode == 200) {
+      print('Notificación enviada con éxito.');
+    } else {
+      print('Error al enviar la notificación: ${response.statusCode}');
+    }
+  }
+
+  // Future<void> _sendNotification(String receiverToken) async {
+  //   try {
+  //     await http.post(
+  //       Uri.parse('https://fcm.googleapis.com/fcm/send'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //         'Authorization':
+  //             'AAAApDpbnok:APA91bG7vW5s_VLdjzEAYdkdf1KpezGj5iRn5xl0HUAlFlAOLerkxWzL1vNhBJfzmwktITm_XZ8MErmqmFwU12Rbd9UOYX9qbeONXndQarJ1RtmYbtccp_M6OMjdAIvSM30FmmvgUwZQTOj6OAZMqzA5cgkjAD005g', // Reemplaza API_KEY con tu clave de API de Firebase
+  //       },
+  //       body: jsonEncode(
+  //         <String, dynamic>{
+  //           'notification': <String, dynamic>{
+  //             'body': '¡Hola! Tienes una nueva notificación',
+  //             'title': 'Notificación',
+  //             'sound': 'default',
+  //             'badge': '1',
+  //           },
+  //           'data': <String, dynamic>{
+  //             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+  //             'id': '1',
+  //             'status': 'done'
+  //           },
+  //           'to': receiverToken,
+  //         },
+  //       ),
+  //     );
+  //   } catch (e) {
+  //     print('Error al enviar la notificación: $e');
+  //   }
+  // }
 
   Set<Marker> _markers = {};
 
@@ -97,6 +187,26 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
       ),
     );
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                sendNotification(
+                    "cC98TbPORfenqr-QayEgNl:APA91bGhnu-G4d2g-OvWRXbfcv3R4QOXjHDgYrYnlLaNadhsLWxhVhCBHqivyYuY5WK7FYSxXyzHQ4GHUPVUh2eEuTUf76tCIB_af2OS94GWMFK1Qv8VhXBwRDnbVeydgnWyd67sjFPR");
+                // _sendNotification(
+                //     'cC98TbPORfenqr-QayEgNl:APA91bGhnu-G4d2g-OvWRXbfcv3R4QOXjHDgYrYnlLaNadhsLWxhVhCBHqivyYuY5WK7FYSxXyzHQ4GHUPVUh2eEuTUf76tCIB_af2OS94GWMFK1Qv8VhXBwRDnbVeydgnWyd67sjFPR');
+              },
+              icon: Icon(Icons.send))
+        ],
+        leading: IconButton(
+            onPressed: () async {
+              await GetStorage().remove('user');
+              await FirebaseAuth.instance.signOut();
+              await Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MyPhone()));
+            },
+            icon: Icon(Icons.power_settings_new)),
+      ),
       body: Stack(
         children: <Widget>[
           GoogleMap(
